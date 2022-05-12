@@ -1,0 +1,39 @@
+version: '3'
+services:
+  app:
+    container_name: gogo_app
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - api:/usr/src/app
+    depends_on:
+      - postgredb
+    networks:
+      - gogoAPI
+    restart: on-failure
+
+  postgredb:
+    image: postgre:latest
+    container_name: gogo_db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+    ports:
+      - '5432:5432'
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+    networks:
+      - gogoAPI
+
+
+volumes:
+  api:
+  database_postgres:                  
+
+# Networks to be created to facilitate communication between containers
+networks:
+  gogoAPI:
+    driver: bridge
