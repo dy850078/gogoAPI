@@ -37,6 +37,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 
 func (server *Server) Run(addr string) {
 	fmt.Println("Listening to port 8080")
+  
 	// Setting the HTTP server’s router
 	log.Fatal(http.ListenAndServe(addr, server.Router))
 }
